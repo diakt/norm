@@ -1,0 +1,21 @@
+What unique challenges do you foresee in developing and integrating AI regulatory agents for legal
+compliance from a full-stack perspective? How would you address these challenges to make the system
+robust and user-friendly?
+
+Agent side:
+In the law, if you detect issues at run-time, you're cooked. 
+You have to guarantee correctness at compile-time.
+If you can't guarantee correctness, you have to be able to estimate it.
+
+Frontend:
+How do you represent confidence?
+How do you indicate cited sources? Gwerny
+How do you prioritize and present citation confirmations?
+
+
+
+
+Backend:
+There's a significant body of jurisprudence affecting any regulatory guidance. 
+The tax code is probably over 10M+ words, which would rip a 2M context window to shreds.
+
