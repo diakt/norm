@@ -250,7 +250,7 @@ export default function Page(): React.ReactNode {
               <Stack spacing={4} h="100%">
                 <Box>
                   <Flex justify="space-between" align="center" mb={2}>
-                    <Heading size="md">Source PDF</Heading>
+                    <Heading size="md">Laws of the Seven Kingdoms</Heading>
                     <Button
                       variant="ghost"
                       size="sm"
