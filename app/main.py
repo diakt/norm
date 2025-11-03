@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.utils import DocumentService, Output, QdrantService
 
@@ -15,6 +18,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+docs_dir = Path(__file__).resolve().parent.parent / "docs"
+app.mount("/static", StaticFiles(directory=docs_dir), name="static")
 
 """
 Please create an endpoint that accepts a query string, e.g., "what happens if I steal 

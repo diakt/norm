@@ -58,6 +58,7 @@ class DocumentService:
         full = "\n".join([raw.text for raw in raws])
         pattern = r'(\d+(?:\.\d+)*)\.\s+'
         matches = list(re.finditer(pattern, full))
+        # cits = []
 
         docs = []
 
@@ -71,6 +72,11 @@ class DocumentService:
                 text_end = len(full)
             
             text = full[text_start:text_end].strip()
+
+            #Kill citations
+            if "Citations:" in text:
+                text = text.split("Citations:")[0]
+                # cits = [f"https://{p}" for p in text.split("Citations:")[1].split("https://") if p]
             
             docs.append(
                 Document(metadata={"Section": number}, text=text))
@@ -121,41 +127,47 @@ class QdrantService:
                 similarity_top_k = self.ncount
             )
 
-        #
+        #Todo - implement cuts for minimal match, don't want generals
+
         rec_res = self.qengine.query(query_str)
         gen_res = str(rec_res)
+
         gen_cit = [
             Citation(
                 source=node.metadata.get("Section", "unknown"),
-                text=node.node.get_content().replace("\n", "").split(":")[1]
+                text=node.node.get_content()
+                .replace("\n", "")
+                .split(":", maxsplit=1)[-1]
+                .replace(".", ".\n")
             )
             for node in rec_res.source_nodes
+            if getattr(node, "node", None) is not None
         ]
 
-        #post processing
+        #Post processing
 
-        #no responses
-        if(gen_res.startswith("None of the provided sources")):
+        #Kill sourcing
+        if gen_res.startswith("None of the provided sources") or gen_res.startswith("Unfortunately"):
             gen_cit = []
 
-        #Sections
-        for x in gen_cit:
-            dot_count = x.source.count(".")
-            if dot_count == 0:
-                x.source = "Section " + x.source + ":"
-            elif dot_count == 1:
-                x.source = "Law " + x.source + ":"
-            elif dot_count == 1:
-                x.source = "Specification " + x.source + ":"
-        
 
+        #dotcount
+        for citation in gen_cit:
+            dot_count = citation.source.count(".")
+            if dot_count == 0:
+                citation.source = f"Section {citation.source}:"
+            elif dot_count == 1:
+                citation.source = f"Law {citation.source}:"
+            else:
+                citation.source = f"Specification {citation.source}:"
 
         #
+
         return Output(
-            query=query_str, 
-            response=gen_res, 
-            citations=gen_cit
-            )
+            query=query_str,
+            response=gen_res,
+            citations=gen_cit,
+        )
        
 
 if __name__ == "__main__":
@@ -180,5 +192,3 @@ if __name__ == "__main__":
     """
 
     """
-
-
