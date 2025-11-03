@@ -1,22 +1,14 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.11-slim
+FROM python:3.12-slim
 
-# Set the working directory inside the container
-WORKDIR /norm-fullstack
+WORKDIR /app
 
-# Copy the dependencies file to the working directory
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install any dependencies
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
-RUN pip install uvicorn
+COPY . .
 
-# API key
-ENV OPENAI_API_KEY=$OPENAI_API_KEY
+ENV PYTHONUNBUFFERED=1
 
-# Copy the content of the local src directory to the working directory
-COPY ./app /norm-fullstack/app
-COPY ./docs /norm-fullstack/docs
+EXPOSE 8000
 
-# Command to run on container start
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
