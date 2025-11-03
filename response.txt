@@ -2,20 +2,31 @@ What unique challenges do you foresee in developing and integrating AI regulator
 compliance from a full-stack perspective? How would you address these challenges to make the system
 robust and user-friendly?
 
-Agent side:
-In the law, if you detect issues at run-time, you're cooked. 
-You have to guarantee correctness at compile-time.
-If you can't guarantee correctness, you have to be able to estimate it.
+What unique challenges do you foresee in developing and integrating AI regulatory agents for legal
+compliance from a full-stack perspective? How would you address these challenges to make the system
+robust and user-friendly?
 
-Frontend:
-How do you represent confidence?
-How do you indicate cited sources? Gwerny
-How do you prioritize and present citation confirmations?
+To take a slightly brusque approach to this question, it might be useful to break it down into engineering sections.
+
+At an agentic level, there's a huge body of regulatory law. 
+While we'd never expect a context window to hold the entire tax code (16k pages?), regulation can be a wide body of work that is not easily connected.
+There are a lot of ghosts in the shell where the spirit of the law matters as well as the formal interpretation (e.g. the tax code).
+I think this has always been the purview of domain expertise and regulator relationships, though, so we just need to get a user to that point.
+Additionally, law and legislation changes. There is no github or diff-watching hooks for nationwide zoning law, for example.
+This type of CI/CD may cause more interesting problems than it should. I don't have a good answer yet. Perhaps we make it.
+
+On the frontend, we're exposing a corpus of recommendations and citations that might not be necessarily comprehensive or accurate.
+In trading, complicated approaches are often passed over in favor of simpler models that have a more explainable confidence interval.
+Building a UI that accurately exposes and describes our degree of confidence in recomendation is (in my personal opinion) a hard problem.
+We most likely need to expose some sort of confidence score for our recommendations, which is a very wide problem (multiple features to consider).
+However, many users understand these systems should be taken with a grain of salt, there's a lot of current work across verticals in this topic, so approachable.
 
 
+On the backend, we will be dealing with PDF hell. Tools are much better than they were but it's still a somewhat cursed format.
+We hold extremely sensitive information and have to demonstrate a security posture bordering on paranoia. 
+How long can we be expected to hold onto drafts and versions? 200 touches on a revision is standard in big law.
+Additionally, I'd guess that we pass-through storage cost, but lawyers hang onto old work until the end of time, which could present issues.
+Most problems in this domain are seem solved to me, but tuned implementation and pricing effective to user needs remains an implementation problem.
 
 
-Backend:
-There's a significant body of jurisprudence affecting any regulatory guidance. 
-The tax code is probably over 10M+ words, which would rip a 2M context window to shreds.
 
