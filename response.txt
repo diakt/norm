@@ -2,10 +2,6 @@ What unique challenges do you foresee in developing and integrating AI regulator
 compliance from a full-stack perspective? How would you address these challenges to make the system
 robust and user-friendly?
 
-What unique challenges do you foresee in developing and integrating AI regulatory agents for legal
-compliance from a full-stack perspective? How would you address these challenges to make the system
-robust and user-friendly?
-
 To take a slightly brusque approach to this question, it might be useful to break it down into engineering sections.
 
 At an agentic level, there's a huge body of regulatory law. 
